@@ -1,0 +1,4 @@
+# Main application CoffeeScript
+#
+
+alert "Edit assets/javascripts/application.coffee to start editing your custom JavaScript code."

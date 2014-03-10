@@ -1,0 +1,4 @@
+source "https://rubygems.org"
+
+<%= if options[:sass] do %>gem "sass", "~> 3.3.0"<% end %>
+<%= if options[:bourbon] do %>gem "bourbon", "~> 3.1.8"<% end %>

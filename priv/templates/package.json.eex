@@ -2,6 +2,9 @@
   "name": "<%= application %>",
   "version": "<%= version %>",
   "devDependencies": {
+  <%= Enum.map npm, fn {name, version} -> %>
+    "<%= name %>": "<%= version %>",
+  <% end %>
     "coffee-script": "~1.7.1"
   }
 }

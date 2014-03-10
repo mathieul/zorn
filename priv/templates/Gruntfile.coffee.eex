@@ -19,7 +19,7 @@ module.exports = (grunt) ->
       install:
         options:
           copy: false
-<%= if options[:bootstrap] %>
+<%= if options[:bootstrap] do %>
     copy:
       build:
         expand: true
@@ -34,10 +34,10 @@ module.exports = (grunt) ->
       build:
         options:
           style: "nested"
-<%= if options[:bourbon] %>
+<%= if options[:bourbon] do %>
           require: ["bourbon"]
 <% end %>
-<%= if options[:bootstrap] %>
+<%= if options[:bootstrap] do %>
           loadPath: [
             "bower_components/bootstrap-sass-official/vendor/assets/stylesheets"
           ]
@@ -59,9 +59,9 @@ module.exports = (grunt) ->
         options:
           sourceMap: true
         files:
-          "<%%= jsdir.dst %>/<%= application %>.js": [
-            "<%%= jsdir.src %>/<%= application %>.coffee"
-<%= if options[:ember] %>
+          "<%%= jsdir.dst %>/application.js": [
+            "<%%= jsdir.src %>/application.coffee"
+<%= if options[:ember] do %>
             "<%%= jsdir.src %>/lib/**/*.coffee"
             "<%%= jsdir.src %>/mixins/**/*.coffee"
             "<%%= jsdir.src %>/initializers/**/*.coffee"
@@ -74,7 +74,7 @@ module.exports = (grunt) ->
 <% end %>
           ]
 
-<%= if options[:ember] %>
+<%= if options[:ember] do %>
     emberTemplates:
       compile:
         options:
@@ -87,28 +87,23 @@ module.exports = (grunt) ->
     concat:
       options:
         separator: "\n;"
-      stylesheets:
-        files:
-          "<%%= cssdir.dst %>/application.css": [
-            "<%%= cssdir.dst %>/<%= application %>.css"
-          ]
       build:
         files:
-<%= if options[:base] %>
+<%= if options[:base] do %>
           "<%%= jsdir.dst %>/base.js": [
             "<%%= jsdir.bwr %>/jquery/jquery.js"
-            "<%= jsdir.bwr %>/underscore/underscore.js"
-            "<%= jsdir.bwr %>/momentjs/moment.js"
+            "<%%= jsdir.bwr %>/underscore/underscore.js"
+            "<%%= jsdir.bwr %>/momentjs/moment.js"
           ]
 <% end %>
-<%= if options[:ember] %>
+<%= if options[:ember] do %>
           "<%%= jsdir.dst %>/ember.js": [
             "<%%= jsdir.bwr %>/handlebars/handlebars.js"
             "<%%= jsdir.bwr %>/ember/ember.js"
             "<%%= jsdir.bwr %>/ember-data/ember-data.js"
           ]
 <% end %>
-<%= if options[:bootstrap] %>
+<%= if options[:bootstrap] do %>
           "<%%= jsdir.dst %>/bootstrap.js": [
             "<%%= jsdir.bwr %>/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/modal.js"
             "<%%= jsdir.bwr %>/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/transition.js"
@@ -120,33 +115,33 @@ module.exports = (grunt) ->
       options:
         banner: "/*! <%%= pkg.name %> <%%= grunt.template.today('yyyy-mm-dd') %> */\n"
         sourceMap: true
-      <%= application %>:
+      application:
         options:
-          sourceMapIn: "<%%= jsdir.dst %>/<%= application %>.js.map"
+          sourceMapIn: "<%%= jsdir.dst %>/application.js.map"
           sourceMapIncludeSources: true
         files:
-          "<%%= jsdir.dst %>/<%= application %>.min.js": "<%%= jsdir.dst %>/<%= application %>.js"
-<%= if options[:ember] %>
+          "<%%= jsdir.dst %>/application.min.js": "<%%= jsdir.dst %>/application.js"
+<%= if options[:ember] do %>
       templates:
         files:
           "<%%= jsdir.dst %>/templates.min.js": "<%%= jsdir.dst %>/templates.js"
 <% end %>
       build:
         files:
-<%= if options[:base] %>
+<%= if options[:base] do %>
           "<%%= jsdir.dst %>/base.min.js": "<%%= jsdir.dst %>/base.js"
 <% end %>
-<%= if options[:ember] %>
+<%= if options[:ember] do %>
           "<%%= jsdir.dst %>/ember.min.js": "<%%= jsdir.dst %>/ember.js"
 <% end %>
-<%= if options[:bootstrap] %>
+<%= if options[:bootstrap] do %>
           "<%%= jsdir.dst %>/bootstrap.min.js": "<%%= jsdir.dst %>/bootstrap.js"
 <% end %>
 
     watch:
       options:
         livereload: true
-<%= if options[:ember] %>
+<%= if options[:ember] do %>
       emberTemplates:
         files: "<%%= jsdir.src %>/templates/**/*.hbs"
         tasks: ["emberTemplates", "uglify:templates"]
@@ -168,7 +163,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-concat"
   grunt.loadNpmTasks "grunt-contrib-copy"
   grunt.loadNpmTasks "grunt-contrib-uglify"
-<%= if options[:ember] %>
+<%= if options[:ember] do %>
   grunt.loadNpmTasks "grunt-ember-templates"
 <% end %>
   grunt.loadNpmTasks "grunt-contrib-watch"
@@ -179,7 +174,7 @@ module.exports = (grunt) ->
     "sass",
 <% end %>
     "coffee",
-<%= if options[:ember] %>
+<%= if options[:ember] do %>
     "emberTemplates",
 <% end %>
     "concat", "uglify"
