@@ -1,0 +1,7 @@
+{
+  "name": "<%= application %>",
+  "version": "<%= version %>",
+  "devDependencies": {
+    "coffee-script": "~1.7.1"
+  }
+}

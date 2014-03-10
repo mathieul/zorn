@@ -1,0 +1,12 @@
+{
+  "name": "<%= application %>",
+  "version": "<%= version %>",
+  "private": "true",
+  "dependencies": {
+  <% [{last_name, last_version} | rest] = Enum.reverse bower %>
+  <%= Enum.reverse(rest) |> Enum.map fn {name, version} -> %>
+    "<%= name %>": "<%= version %>",
+  <% end %>
+  "<%= last_name %>": "<%= last_version %>"
+  }
+}
