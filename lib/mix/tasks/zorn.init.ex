@@ -107,7 +107,7 @@ defmodule Mix.Tasks.Zorn.Init do
     end
 
     copy_assets(context)
-    Mix.shell.info "-> frontend initialized."
+    Mix.shell.info "-> frontend initialized.\n"
     context
   end
 
@@ -150,7 +150,7 @@ defmodule Mix.Tasks.Zorn.Init do
   defp setup_backend(context) do
     create_directories(Mix.project[:app])
     copy_backend_source(context, Mix.project[:app])
-    Mix.shell.info "-> backend initialized."
+    Mix.shell.info "-> backend initialized.\n"
     context
   end
 
@@ -168,9 +168,7 @@ defmodule Mix.Tasks.Zorn.Init do
 
   defp display_instructions(context) do
     Mix.shell.info ~s"""
-
-
-    Zorn initialization has finished.
+    %{black,bright}Zorn initialization has finished.%{reset}
 
     You first must add the following to the start function in
     lib/#{context[:application]}.ex:
