@@ -161,6 +161,7 @@ defmodule Mix.Tasks.Zorn.Init do
 
   defp copy_backend_source(context, application) do
     context
+    |> generate_file("router.ex", "lib/#{application}")
     |> generate_file("controller/home.ex", "lib/#{application}")
     |> generate_file("controller/api.ex", "lib/#{application}")
     |> generate_file("controller/todos.ex", "lib/#{application}")
@@ -181,6 +182,9 @@ defmodule Mix.Tasks.Zorn.Init do
 
     And finally start the web server with:
     $ %{green,bright}mix run --no-halt%{reset}
+
+    You can test using curl for instance:
+    $ %{green,bright}curl -v http://localhost:4000/todos/hello-there%{reset}
     """
     context
   end

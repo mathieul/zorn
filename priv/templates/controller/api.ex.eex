@@ -1,5 +1,5 @@
 defmodule <%= module_name %>.Controller.API do
-  defmacro __using__(options) do
+  defmacro __using__(_options) do
     quote do
       use Zorn.Controller
       import unquote(__MODULE__)
