@@ -4,7 +4,7 @@ defmodule Zorn.Mixfile do
   def project do
     [ app: :zorn,
       version: "0.0.1",
-      elixir: "~> 0.12.5",
+      elixir: "~> 0.12.5  or ~> 0.13.0-dev",
       deps: deps ]
   end
 
@@ -13,12 +13,14 @@ defmodule Zorn.Mixfile do
     []
   end
 
-  # Returns the list of dependencies in the format:
-  # { :foobar, git: "https://github.com/elixir-lang/foobar.git", tag: "0.1" }
-  #
-  # To specify particular versions, regardless of the tag, do:
-  # { :barbat, "~> 0.1", github: "elixir-lang/barbat" }
   defp deps do
-    []
+    [
+      {:cowboy, github: "extend/cowboy"},
+      {:plug, github: "elixir-lang/plug"},
+      {:ecto, github: "elixir-lang/ecto"},
+      {:postgrex, github: "ericmj/postgrex"},
+      {:bcrypt, github: "opscode/erlang-bcrypt"},
+      {:jazz, github: "meh/jazz"}
+    ]
   end
 end
