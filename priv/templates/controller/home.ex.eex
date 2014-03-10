@@ -1,0 +1,36 @@
+defmodule <%= module_name %>.Controller.Home do
+  use Zorn.Controller
+
+  plug :match
+  plug :dispatch
+
+  get "/" do
+    title = "Change Me"
+    js_suffix = ".min.js"
+    html conn, ~s"""
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>#{title}</title>
+        <link rel="shortcut icon" href="/static/favicon.ico" />
+        <link href="/static/css/application.css" media="all" rel="stylesheet" />
+      </head>
+      <body>
+<%= if options[:base] do %>
+        <script src="/static/js/base.#{js_suffix}"></script>
+<% end %>
+<%= if options[:ember] do %>
+        <script src="/static/js/ember.#{js_suffix}"></script>
+<% end %>
+<%= if options[:bootstrap] do %>
+        <script src="/static/js/bootstrap.#{js_suffix}"></script>
+<% end %>
+        <script src="/static/js/application.#{js_suffix}"></script>
+      </body>
+      </html>
+    """
+  end
+
+  match _, do: send_resp(conn, 404, "")
+end

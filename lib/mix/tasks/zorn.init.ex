@@ -1,25 +1,26 @@
 defmodule Mix.Tasks.Zorn.Init do
   use Mix.Task
 
-  @application Mix.project[:app]
-  @version     Mix.project[:version]
-  @path        Path.expand('../../../priv/templates', __DIR__)
+  @path Path.expand('../../../priv/templates', __DIR__)
 
   @shortdoc "Initialize current mix project for Zorn backend and frontend development."
   @moduledoc "A task to initialize Zorn"
   def run(args) do
-    assert_not_initialized!
+    options = parse_options(args)
+
+    unless options[:force], do: assert_not_initialized!
     assert_npm_installed!
 
     Mix.shell.info "Generating the following files:"
-    build_context(args)
+    build_context(options)
     |> setup_frontend
     |> setup_backend
+    |> display_instructions
   end
 
   defp assert_not_initialized! do
     if already_initialized? do
-      Mix.shell.error "The current project #{@application} has already been initialized for Zorn."
+      Mix.shell.error "The current project #{Mix.project[:app]} has already been initialized for Zorn."
       exit 1
     end
   end
@@ -42,21 +43,22 @@ defmodule Mix.Tasks.Zorn.Init do
     File.exists?("Gruntfile.coffee")
   end
 
-  defp build_context(args) do
-    options = parse_options(args)
+  defp build_context(options) do
     [
-      application: @application,
-      version: @version,
-      options: options,
-      bower: bower_packages(options),
-      npm: npm_packages(options)
+      application: Mix.project[:app],
+      module_name: (Mix.project[:app] |> atom_to_binary |> Mix.Utils.camelize),
+      version:     Mix.project[:version],
+      options:     options,
+      bower:       bower_packages(options),
+      npm:         npm_packages(options)
     ]
   end
 
   defp parse_options(args) do
-    defaults = ["--sass", "--base", "--ember", "--bootstrap"]
+    defaults = ["--commands", "--sass", "--base", "--bootstrap"]
     {options, _arguments, _errors} = OptionParser.parse(defaults ++ args,
-      switches: [sass: :boolean, bourbon: :boolean, basejs: :boolean, emberjs: :boolean, boostrap: :boolean])
+      switches: [sass: :boolean, bourbon: :boolean, basejs: :boolean, force: :boolean,
+                 emberjs: :boolean, boostrap: :boolean, commands: :boolean])
     if options[:bootstrap] || options[:bourbon] do
       options = Keyword.put(options, :sass, true)
     end
@@ -91,23 +93,29 @@ defmodule Mix.Tasks.Zorn.Init do
   end
 
   defp setup_frontend(context) do
+    options = context[:options]
+
     context
     |> generate_file("package.json")
     |> generate_file("bower.json")
     |> generate_file("Gruntfile.coffee")
-    if context[:options][:sass], do: generate_file(context, "Gemfile")
+    if options[:sass], do: generate_file(context, "Gemfile")
 
-    install_npm_packages
-    install_gems(context[:options][:sass])
+    if options[:commands] do
+      install_npm_packages
+      install_gems(options[:sass])
+    end
 
     copy_assets(context)
     Mix.shell.info "-> frontend initialized."
+    context
   end
 
-  defp generate_file(context, name) do
+  defp generate_file(context, name, root \\ nil) do
     Mix.shell.info "  * create file #{name}"
     path = Path.join(@path, name <> ".eex")
-    File.write! name, EEx.eval_file(path, context)
+    dest = if nil?(root), do: name, else: Path.join(root, name)
+    File.write! dest, EEx.eval_file(path, context)
     context
   end
 
@@ -139,7 +147,43 @@ defmodule Mix.Tasks.Zorn.Init do
     generate_file(context, "assets/javascripts/application.coffee")
   end
 
-  defp setup_backend(_context) do
+  defp setup_backend(context) do
+    create_directories(Mix.project[:app])
+    copy_backend_source(context, Mix.project[:app])
     Mix.shell.info "-> backend initialized."
+    context
+  end
+
+  defp create_directories(application) do
+    ~W[collection model controller]
+    |> Enum.each(fn name -> File.mkdir_p!("./lib/#{application}/#{name}") end)
+  end
+
+  defp copy_backend_source(context, application) do
+    context
+    |> generate_file("controller/home.ex", "lib/#{application}")
+    |> generate_file("controller/api.ex", "lib/#{application}")
+    |> generate_file("controller/todos.ex", "lib/#{application}")
+  end
+
+  defp display_instructions(context) do
+    Mix.shell.info ~s"""
+
+
+    Zorn initialization has finished.
+
+    You first must add the following to the start function in
+    lib/#{context[:application]}.ex:
+
+    %{blue,bright}#{context[:module_name]}.Router
+    |> Plug.Adapters.Cowboy.http([port: 4000])%{reset}
+
+    You then need to compile your assets with:
+    $ %{green,bright}grunt%{reset}
+
+    And finally start the web server with:
+    $ %{green,bright}mix run --no-halt%{reset}
+    """
+    context
   end
 end

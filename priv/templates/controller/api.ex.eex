@@ -1,0 +1,13 @@
+defmodule <%= module_name %>.Controller.API do
+  defmacro __using__(options) do
+    quote do
+      use Zorn.Controller
+      import unquote(__MODULE__)
+
+      plug Plug.Parsers, parsers: [Zorn.Parsers.Json]
+      plug Plug.MethodOverride
+      plug :match
+      plug :dispatch
+    end
+  end
+end
