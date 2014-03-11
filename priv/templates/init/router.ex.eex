@@ -6,8 +6,7 @@ defmodule <%= module_name %>.Router do
   plug :match
   plug :dispatch
 
-  forward "todos", <%= module_name %>.Controller.Todos
-  forward "/",     <%= module_name %>.Controller.Home
+  forward "/", <%= module_name %>.Controller.Home
 
   def log_unless_test(log) do
     unless Mix.env == :test, do: IO.puts log

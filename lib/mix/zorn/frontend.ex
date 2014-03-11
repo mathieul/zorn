@@ -1,14 +1,14 @@
 defmodule Mix.Zorn.Frontend do
   alias Mix.Zorn.Common
 
-  def setup(context) do
+  def init(context) do
     options = context[:options]
 
     context
-    |> Common.generate_file("package.json")
-    |> Common.generate_file("bower.json")
-    |> Common.generate_file("Gruntfile.coffee")
-    if options[:sass], do: Common.generate_file(context, "Gemfile")
+    |> Common.generate_file("package.json", sub_path: "init")
+    |> Common.generate_file("bower.json", sub_path: "init")
+    |> Common.generate_file("Gruntfile.coffee", sub_path: "init")
+    if options[:sass], do: Common.generate_file(context, "Gemfile", sub_path: "init")
 
     if options[:commands] do
       install_npm_packages
@@ -43,9 +43,9 @@ defmodule Mix.Zorn.Frontend do
 
   defp copy_assets(context) do
     File.mkdir_p!("./assets/stylesheets")
-    Common.generate_file(context, "assets/stylesheets/application.scss")
+    Common.generate_file(context, "assets/stylesheets/application.scss", sub_path: "init")
     File.mkdir_p!("./assets/javascripts")
-    Common.generate_file(context, "assets/javascripts/application.coffee")
+    Common.generate_file(context, "assets/javascripts/application.coffee", sub_path: "init")
   end
 
   def bower_packages(options) do

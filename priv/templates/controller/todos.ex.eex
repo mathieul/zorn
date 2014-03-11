@@ -1,9 +1,0 @@
-defmodule <%= module_name %>.Controller.Todos do
-  use <%= module_name %>.Controller.API
-
-  get "/:id" do
-    json(conn, JSON.encode!([todo: id]))
-  end
-
-  match _, do: send_resp(conn, 404, "Not Found")
-end

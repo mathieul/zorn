@@ -14,8 +14,8 @@ defmodule Mix.Tasks.Zorn.Init do
 
     Mix.shell.info "Generating the following files:"
     build_context(options)
-    |> Frontend.setup
-    |> Backend.setup
+    |> Frontend.init
+    |> Backend.init
     |> display_instructions
   end
 

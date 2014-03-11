@@ -8,11 +8,23 @@ defmodule Mix.Zorn.Common do
     end
   end
 
-  def generate_file(context, name, root \\ nil) do
+  def generate_file(context, name, options \\ []) do
+    root = Keyword.get(options, :root, nil)
+    sub_path = Keyword.fetch!(options, :sub_path)
+
     Mix.shell.info "  * create file #{name}"
-    path = Path.join(@path, name <> ".eex")
-    dest = if nil?(root), do: name, else: Path.join(root, name)
-    File.write! dest, EEx.eval_file(path, context)
+    source = Path.join([@path, sub_path, name <> ".eex"])
+    destination = path_for(name, root)
+    ensure_dir_exists!(destination)
+    File.write! destination, EEx.eval_file(source, context)
     context
   end
+
+  defp path_for(name, nil),
+    do: name
+  defp path_for(name, root),
+    do: Path.join(root, name)
+
+  defp ensure_dir_exists!(path),
+    do: Path.dirname(path) |> File.mkdir_p!
 end
