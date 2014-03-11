@@ -17,6 +17,34 @@ defmodule <%= module_name %>.Controller.Home do
         <link href="/static/css/application.css" media="all" rel="stylesheet" />
       </head>
       <body>
+        <nav class="navbar navbar-default" role="navigation">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/">#{title}</a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/other">Other</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/accounts/new">Register</a></li>
+              <li class="divider"></li>
+              <li><a href="/sessions/new">Login</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <section id="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-4">Side Bar</div>
+              <div class="col-md-8">Main Content</div>
+            </div>
+          </div>
+        </section>
+
 <%= if options[:base] do %>
         <script src="/static/js/base.#{js_suffix}"></script>
 <% end %>
