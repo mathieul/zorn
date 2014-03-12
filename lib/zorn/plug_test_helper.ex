@@ -9,7 +9,7 @@ defmodule Zorn.PlugTestHelper do
       Module.put_attribute(__MODULE__, :router, unquote(router))
 
       def json_request(method, path, data, cookies \\ []) do
-        json = JSON.encode!(data)
+        {:ok, json} = JSON.encode(data)
         conn = conn(method, path, json, headers: [{ "content-type", "application/json" }])
         conn = Enum.reduce(cookies, conn, fn {name, value}, conn ->
           put_req_cookie(conn, name, value)

@@ -54,16 +54,18 @@ defmodule Zorn.Controller do
   @doc """
   Send a JSON response to the client with success status.
   """
-  @spec json(Plug.Conn.t, Plug.Conn.body) :: Plug.Conn.t | no_return
-  def json(conn, json),
-    do: json(conn, 200, json)
+  @spec json(Plug.Conn.t, term) :: Plug.Conn.t | no_return
+  def json(conn, as_json),
+    do: json(conn, 200, as_json)
 
   @doc """
   Send a JSON response to the client with status.
   """
-  @spec json(Plug.Conn.t, Plug.Conn.status, Plug.Conn.body) :: Plug.Conn.t
-  def json(conn, status, json),
-    do: send_resp_with_type(conn, status, "application/json", json)
+  @spec json(Plug.Conn.t, Plug.Conn.status, term) :: Plug.Conn.t
+  def json(conn, status, as_json) do
+    {:ok, json} = JSON.encode(as_json)
+    send_resp_with_type(conn, status, "application/json", json)
+  end
 
   @doc """
   Convert dict to keyword list with keys underscored and changed to atoms.
