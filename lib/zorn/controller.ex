@@ -66,16 +66,4 @@ defmodule Zorn.Controller do
     {:ok, json} = JSON.encode(as_json)
     send_resp_with_type(conn, status, "application/json", json)
   end
-
-  @doc """
-  Convert dict to keyword list with keys underscored and changed to atoms.
-  """
-  @spec camelcase_params_to_keyword_list([{ binary, binary }]) :: Keyword.t
-  def camelcase_params_to_keyword_list(params) do
-    params
-    |> Enum.reduce(Keyword.new, fn { name, value }, attributes ->
-      atomified = Mix.Utils.underscore(name) |> binary_to_atom
-      Keyword.put(attributes, atomified, value)
-    end)
-  end
 end
