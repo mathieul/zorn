@@ -3,7 +3,7 @@ defmodule Zorn.Mixfile do
 
   def project do
     [ app: :zorn,
-      version: "0.0.1",
+      version: "0.0.2",
       elixir: "~> 0.12.5  or ~> 0.13.0-dev",
       deps: deps ]
   end

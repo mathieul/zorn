@@ -1,11 +1,11 @@
-[ "bcrypt": {:git, "git://github.com/opscode/erlang-bcrypt.git", "7515e80a5e16f62aef149709f6cc09995dd480be", []},
+%{"bcrypt": {:git, "git://github.com/opscode/erlang-bcrypt.git", "7515e80a5e16f62aef149709f6cc09995dd480be", []},
   "cowboy": {:git, "git://github.com/extend/cowboy.git", "8993249e421fbfff603cedec70e90be64d3694e6", []},
   "cowlib": {:git, "git://github.com/extend/cowlib.git", "0d4ece08a7cce90a07cf33d4edad29bc324c7d90", [ref: "0.5.1"]},
   "decimal": {:git, "git://github.com/ericmj/decimal.git", "ab1b6637aac1eabce5dc5a57290b5366878c2e84", []},
-  "ecto": {:git, "git://github.com/elixir-lang/ecto.git", "fd939dd96ebf0f37a820d976667ede20390bb1bf", []},
+  "ecto": {:git, "git://github.com/elixir-lang/ecto.git", "b86db1d4bb5e39a16286e9fe3510842a999083ab", []},
   "jazz": {:git, "git://github.com/meh/jazz.git", "c502fc3894249d677f0546bc02a9b866d5d32afa", []},
   "mime": {:git, "git://github.com/dynamo/mime.git", "db84370c53a67a7e58a4d0cfb026f4edc64a9367", []},
   "plug": {:git, "git://github.com/elixir-lang/plug.git", "fce879565115427239e650ae690455565b2fafee", []},
   "poolboy": {:git, "git://github.com/devinus/poolboy.git", "64e1eaef0b1e88849c7e7ba9ff75f8cd4dba2a3b", []},
-  "postgrex": {:git, "git://github.com/ericmj/postgrex.git", "4333cc5d6f99e4ebbe1d1bf569574d1f5fd3bd4a", []},
-  "ranch": {:git, "git://github.com/extend/ranch.git", "5df1f222f94e08abdcab7084f5e13027143cc222", [ref: "0.9.0"]} ]
+  "postgrex": {:git, "git://github.com/ericmj/postgrex.git", "720b45b5613ef364bca3f5228e285489bb9f01d4", []},
+  "ranch": {:git, "git://github.com/extend/ranch.git", "5df1f222f94e08abdcab7084f5e13027143cc222", [ref: "0.9.0"]}}
