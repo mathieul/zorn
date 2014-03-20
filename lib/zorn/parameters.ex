@@ -1,10 +1,5 @@
 defmodule Zorn.Parameters do
-  defexception BadRequest, [:message] do
-    defimpl Plug.Exception do
-      def status(_exception),
-        do: 400
-    end
-  end
+  alias Zorn.Util.BadRequest
 
   @doc """
   Format specified keys so it can be used to process params as permitted or required.

@@ -13,7 +13,7 @@ defmodule Zorn.Parsers.Json do
   end
 
   defp read_body(Conn[adapter: { adapter, state }] = conn, limit) do
-    case Zorn.Util.read_body({ :ok, "", state }, "", limit, adapter) do
+    case Zorn.Connection.read_body({ :ok, "", state }, "", limit, adapter) do
       { :too_large, state } ->
         { :too_large, conn.adapter({ adapter, state }) }
       { :ok, "", state } ->

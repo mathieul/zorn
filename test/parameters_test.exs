@@ -86,13 +86,13 @@ defmodule Zorn.ParametersTest do
   end
 
   test "raise a bad request error if a required key is missing" do
-    assert_raise Zorn.Parameters.BadRequest, "missing mandatory parameter id", fn ->
+    assert_raise Zorn.Util.BadRequest, "missing mandatory parameter id", fn ->
       requires([{"test_id", "456"}], [:id])
     end
   end
 
   test "raise a bad request error if several required keys are missing" do
-    assert_raise Zorn.Parameters.BadRequest, "missing mandatory parameters id, token", fn ->
+    assert_raise Zorn.Util.BadRequest, "missing mandatory parameters id, token", fn ->
       requires([{"test_id", "456"}], [:id, :token])
     end
   end
