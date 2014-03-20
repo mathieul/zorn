@@ -2,6 +2,9 @@ defmodule Zorn.Connection do
   @doc """
   Parse the accept header value to return an ordered list of mime type tuples.
   """
+  def parse_accept(nil),
+    do: []
+
   def parse_accept(accept) do
     accept
     |> String.split(",")
@@ -10,21 +13,14 @@ defmodule Zorn.Connection do
       case String.split(desc, ";") do
         [mime_type, <<"q=" <> qvalue>>] ->
           qvalue = parse_float(qvalue)
-          {parse_mime_type(mime_type), index, qvalue}
+          {mime_type, index, qvalue}
 
         [mime_type] ->
-          {parse_mime_type(mime_type), index, 1}
+          {mime_type, index, 1}
       end
     end)
     |> Enum.sort(&compare_indexed_types/2)
     |> Enum.map(&(elem(&1, 0)))
-  end
-
-  defp parse_mime_type(mime_type) do
-    case String.split(mime_type, "/") do
-      [type, subtype] -> {type, subtype}
-      [subtype] -> {"unknown", subtype}
-    end
   end
 
   defp parse_float(string) do
@@ -46,13 +42,8 @@ defmodule Zorn.Connection do
   Return the format matching both accepted subtypes and supported formats.
   """
   def matching_format(accepted, supported) when is_list(accepted) and is_list(supported) do
-    found =
-      accepted
-      |> Enum.map(fn {_, subtype} -> subtype end)
-      |> Enum.find(fn subtype -> subtype in supported or subtype == "*" end)
-
-    case found do
-      "*"    -> {:ok, List.first(supported)}
+    case Enum.find(accepted, fn type -> type in supported or type == "*/*" end) do
+      "*/*"  -> {:ok, List.first(supported)}
       nil    -> :error
       format -> {:ok, format}
     end
