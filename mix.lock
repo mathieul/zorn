@@ -5,7 +5,7 @@
   "ecto": {:git, "git://github.com/elixir-lang/ecto.git", "b86db1d4bb5e39a16286e9fe3510842a999083ab", []},
   "jazz": {:git, "git://github.com/meh/jazz.git", "c502fc3894249d677f0546bc02a9b866d5d32afa", []},
   "mime": {:git, "git://github.com/dynamo/mime.git", "db84370c53a67a7e58a4d0cfb026f4edc64a9367", []},
-  "plug": {:git, "git://github.com/elixir-lang/plug.git", "3bf2d8c5548dc1b17ca4f23150c2008fe7c9230d", []},
+  "plug": {:git, "git://github.com/elixir-lang/plug.git", "07aab8979229aa23b8f95eaabec331056338f774", []},
   "poolboy": {:git, "git://github.com/devinus/poolboy.git", "64e1eaef0b1e88849c7e7ba9ff75f8cd4dba2a3b", []},
   "postgrex": {:git, "git://github.com/ericmj/postgrex.git", "720b45b5613ef364bca3f5228e285489bb9f01d4", []},
   "ranch": {:git, "git://github.com/extend/ranch.git", "5df1f222f94e08abdcab7084f5e13027143cc222", [ref: "0.9.0"]}}

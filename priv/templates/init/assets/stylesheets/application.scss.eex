@@ -1,6 +1,0 @@
-/*
- * Main application stylesheet
- */
-
-<%= if options[:bourbon] do %>@import "vendor/bourbon/bourbon";<% end %>
-<%= if options[:bootstrap] do %>@import "bootstrap";<% end %>
