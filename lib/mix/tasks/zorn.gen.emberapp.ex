@@ -49,7 +49,7 @@ defmodule Mix.Tasks.Zorn.Gen.Emberapp do
       "--app", atom_to_binary(Mix.project[:app])
     ]
     {options, _arguments, _errors} = OptionParser.parse(defaults ++ args,
-      switches: [javascript: :boolean, install: :boolean])
+      switches: [bootstrap: :boolean, install: :boolean])
     options
   end
 

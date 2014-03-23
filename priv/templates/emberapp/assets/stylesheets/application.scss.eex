@@ -1,0 +1,6 @@
+/* Application main stylesheet */
+
+<%= if options[:bootstrap] do %>
+$grid-columns: 24;
+@import "bootstrap";
+<% end %>
