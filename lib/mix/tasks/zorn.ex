@@ -21,14 +21,14 @@ defmodule Mix.Tasks.Zorn do
     end
 
     template
-    |> destination_file(target, context[:options])
+    |> destination_file(target, context)
     |> create_file(content)
   end
 
-  defp destination_file(template, target, options) do
+  defp destination_file(template, target, context) do
     dest_file =
       template
-      |> String.replace("__application__", options[:application])
+      |> String.replace("__application__", context[:application])
       |> Path.rootname(".eex")
 
     Path.join(target, dest_file)

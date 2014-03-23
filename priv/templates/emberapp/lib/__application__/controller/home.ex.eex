@@ -22,6 +22,7 @@ defmodule <%= module_name %>.Controller.Home do
         <script src="/static/js/base.#{suffix}"></script>
         <script src="/static/js/ember.#{suffix}"></script>
         <%= if options[:bootstrap] do %><script src="/static/js/bootstrap.#{suffix}"></script><% end %>
+        <script src="/static/js/templates.#{suffix}"></script>
         <script src="/static/js/application.#{suffix}"></script>
       </body>
       </html>

@@ -1,5 +1,5 @@
-@<%= module_name %> = Ember.Application.create
+@App = Ember.Application.create
   LOG_TRANSITIONS: true
 
-@<%= module_name %>.Router.map ->
-  @route "index"
+@App.Router.map ->
+  @route "index", path: "/"

@@ -59,7 +59,6 @@ module.exports = (grunt) ->
             "<%%= jsdir.src %>/initializers/**/*.coffee"
             "<%%= jsdir.src %>/routes/**/*.coffee"
             "<%%= jsdir.src %>/controllers/**/*.coffee"
-            "<%%= jsdir.src %>/stores/**/*.coffee"
             "<%%= jsdir.src %>/models/**/*.coffee"
             "<%%= jsdir.src %>/helpers/**/*.coffee"
             "<%%= jsdir.src %>/views/**/*.coffee"
@@ -125,7 +124,7 @@ module.exports = (grunt) ->
         tasks: ["emberTemplates", "uglify:templates"]
       coffee:
         files: "<%%= jsdir.src %>/**/*.coffee"
-        tasks: ["coffee", "uglify:sequences"]
+        tasks: ["coffee", "uglify:application"]
       sass:
         files: ["<%%= cssdir.src %>/**/*.sass", "<%%= cssdir.src %>/**/*.scss"]
         tasks: ["sass"]

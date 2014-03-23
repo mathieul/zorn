@@ -1,6 +1,5 @@
 defmodule <%= module_name %>.Router do
   use Plug.Router
-  import Plug.Connection
 
   plug Zorn.Plugs.CommonLogger, fun: &__MODULE__.log_unless_test/1
   plug Plug.Static, at: "/static", from: :<%= application %>
