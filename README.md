@@ -20,11 +20,11 @@ defp deps do
 end
 ```
 
-Fetch dependencies and initialize the project for Zorn:
+Fetch dependencies and setup the project for an Ember.js application:
 
 ```bash
 $ mix do deps.get, compile
-$ mix zorn.init
+$ mix zorn.gen.emberapp
 ```
 
 And follow the instructions :)
