@@ -8,7 +8,8 @@ defmodule Mix.Tasks.Zorn do
 
   def template_files(path) do
     Path.wildcard("#{path}/**")
-    |> Enum.map(fn file_path -> Path.relative_to(file_path, path) end)
+    |> Enum.reject(&File.dir?/1)
+    |> Enum.map(fn file -> Path.relative_to(file, path) end)
   end
 
   def generate({path, template}, target, context) do
