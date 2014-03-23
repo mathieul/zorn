@@ -1,6 +1,8 @@
 defmodule <%= module_name %>.Controller.Examples do
   use <%= module_name %>.Controller.API
 
+  alias <%= module_name %>.Model.Example
+
   get "/:id" do
     case find_example(id) do
       {:ok, example} ->
@@ -24,7 +26,8 @@ defmodule <%= module_name %>.Controller.Examples do
   match _, do: respond_with(conn, 404, message: "Not Found")
 
   defp find_example(id) do
-    {:ok, [id: id, name: "Example ##{id}", message: "code example"]}
+    example = Example.new(id: id, name: "Example ##{id}", message: "code example")
+    {:ok, example}
   end
 
   defp create_example(_attributes) do
