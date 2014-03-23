@@ -3,8 +3,8 @@ defmodule Zorn.Mixfile do
 
   def project do
     [ app: :zorn,
-      version: "0.0.2",
-      elixir: "~> 0.12.5  or ~> 0.13.0-dev",
+      version: "0.0.3",
+      elixir: "~> 0.13.0-dev",
       deps: deps ]
   end
 
@@ -14,13 +14,9 @@ defmodule Zorn.Mixfile do
   end
 
   defp deps do
-    [
-      {:cowboy, github: "extend/cowboy"},
+    [ {:cowboy, github: "extend/cowboy"},
       {:plug, github: "elixir-lang/plug"},
       {:ecto, github: "elixir-lang/ecto"},
-      {:postgrex, github: "ericmj/postgrex"},
-      {:bcrypt, github: "opscode/erlang-bcrypt"},
-      {:jazz, github: "meh/jazz"}
-    ]
+      {:postgrex, github: "ericmj/postgrex"} ]
   end
 end

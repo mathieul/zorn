@@ -100,13 +100,27 @@ defmodule Mix.Tasks.Zorn.Gen.Emberapp do
     %{blue,bright}#{context[:module_name]}.Router
     |> Plug.Adapters.Cowboy.http([port: 4000])%{reset}
 
-    You then need to compile your assets with:
+    Then make sure you have a JSON library such as cblage/elixir-json or meh/jazz in
+    your %{black,bright}mix.exs%{reset} file:
+
+    %{blue,bright}defp deps do
+      [ {:zorn, github: "mathieul/zorn"},
+        {:json, github: "cblage/elixir-json"} ]
+    end%{reset}
+
+    Update your dependencies and compile your project:
+    $ %{green,bright}mix do deps.get, compile%{reset}
+
+    Compile your assets:
     $ %{green,bright}grunt%{reset}
 
     And finally start the web server with:
     $ %{green,bright}mix run --no-halt%{reset}
 
     You can then launch a brower at the URL %{black,bright}http://localhost:4000%{reset}
+
+    You can also test the JSON API example using curl:
+    %{black,bright}curl --header "Content-Type: application/json" -v http://localhost:4000/examples/42%{reset}
     """
   end
 end
