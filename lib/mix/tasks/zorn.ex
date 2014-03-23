@@ -20,10 +20,18 @@ defmodule Mix.Tasks.Zorn do
       File.read!(source)
     end
 
-    dest_file = Path.rootname(template, ".eex")
-    destination = Path.join(target, dest_file)
+    template
+    |> destination_file(target, context[:options])
+    |> create_file(content)
+  end
 
-    create_file(destination, content)
+  defp destination_file(template, target, options) do
+    dest_file =
+      template
+      |> String.replace("__application__", options[:application])
+      |> Path.rootname(".eex")
+
+    Path.join(target, dest_file)
   end
 
   def command_must_succeed!(command, error_message) do
