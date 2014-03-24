@@ -40,4 +40,14 @@ defmodule Mix.Tasks.Zorn do
       exit 1
     end
   end
+
+  def update(file, [before: pattern, with: insert]) do
+    content = File.read!(file)
+    [{index, _}] = Regex.run(~r{  forward "/",}, content, return: :index)
+    beginning = String.slice(content, 0..(index - 1))
+    ending = String.slice(content, index..-1)
+    File.write!(file, beginning <> insert <> ending, [:write])
+    relative_file = Path.relative_to(file, File.cwd!)
+    Mix.shell.info "%{green}* updating%{reset} #{relative_file}"
+  end
 end

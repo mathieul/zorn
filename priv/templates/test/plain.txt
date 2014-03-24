@@ -1,0 +1,4 @@
+Bob Loblaw Law Blog
+test do
+  forward "/", to: Blah
+end
