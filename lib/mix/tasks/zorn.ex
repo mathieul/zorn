@@ -41,13 +41,41 @@ defmodule Mix.Tasks.Zorn do
     end
   end
 
-  def update(file, [before: pattern, with: insert]) do
-    content = File.read!(file)
-    [{index, _}] = Regex.run(~r{  forward "/",}, content, return: :index)
-    beginning = String.slice(content, 0..(index - 1))
-    ending = String.slice(content, index..-1)
-    File.write!(file, beginning <> insert <> ending, [:write])
+  def update(file, options) when is_list(options) do
     relative_file = Path.relative_to(file, File.cwd!)
-    Mix.shell.info "%{green}* updating%{reset} #{relative_file}"
+    {position, pattern, insert} = update_options(options)
+    content = File.read!(file)
+    case split_on_pattern(content, pattern, position) do
+      {beginning, ending} ->
+        File.write!(file, beginning <> insert <> ending, [:write])
+        Mix.shell.info "%{green}* updating%{reset} #{relative_file}"
+      :no_match ->
+        Mix.shell.info "%{red}* failed updating%{reset} #{relative_file}"
+    end
+  end
+
+  defp update_options(options) do
+    insert = Dict.fetch!(options, :insert)
+    {position, pattern} = case Dict.fetch(options, :before) do
+      {:ok, before} ->
+        {:before, before}
+      :error ->
+        {:after, Dict.fetch!(options, :after)}
+    end
+    {position, pattern, insert}
+  end
+
+  defp split_on_pattern(content, pattern, position) do
+    case Regex.run(pattern, content, return: :index) do
+      [{index, length}] ->
+        {rindex, lindex} = if position == :before do
+          {index - 1, index}
+        else
+          {index - 1 + length, index + length}
+        end
+        {String.slice(content, 0..rindex), String.slice(content, lindex..-1)}
+      _ ->
+        :no_match
+    end
   end
 end

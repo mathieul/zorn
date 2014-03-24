@@ -51,13 +51,30 @@ defmodule Mix.Tasks.ZornTest do
     destination = Path.join(@target, "plain.txt")
     silent fn ->
       generate({path, "plain.txt"}, @target, [application: "whatever"])
-      update(destination, before: ~r{  forward "/",}, with: ~s{  forward "/examples", to: Hello\n})
+      update(destination, before: ~r{  forward "/",}, insert: ~s{  forward "/examples", to: Hello\n})
     end
     generated = File.read!(destination)
     assert generated == """
 Bob Loblaw Law Blog
 test do
   forward "/examples", to: Hello
+  forward "/", to: Blah
+end
+"""
+  end
+
+  test "update file with content after a pattern" do
+    path = template_path("test")
+    destination = Path.join(@target, "plain.txt")
+    silent fn ->
+      generate({path, "plain.txt"}, @target, [application: "whatever"])
+      update(destination, after: ~r{Bob Loblaw Law Blog\n}, insert: ~s{Thanks for all the fish\n})
+    end
+    generated = File.read!(destination)
+    assert generated == """
+Bob Loblaw Law Blog
+Thanks for all the fish
+test do
   forward "/", to: Blah
 end
 """
