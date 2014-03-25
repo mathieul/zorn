@@ -1,0 +1,82 @@
+defmodule <%= module_name %>.Model.<%= subject_camelcase %> do
+  use Ecto.Model
+
+  import Ecto.Query, only: [from: 2]
+
+  alias <%= module_name %>.Repo
+
+  queryable "<%= subject_underscore %>" do
+    field :name
+    field :description
+  end
+
+  validatep validate_create(<%= subject_underscore %>),
+           name: present(),
+    description: present()
+
+  def create(attrs) when is_list(attrs) do
+    <%= subject_underscore %> =
+      attributes_for_change(<%= subject_underscore %>, attrs)
+      |> __MODULE__.new
+
+    case validate(<%= subject_underscore %>) do
+      [] ->
+        do_create(<%= subject_underscore %>)
+      errors ->
+        {:errors, error_messages(errors)}
+    end
+  end
+
+  defp attributes_for_change(attrs) do
+    attrs
+    |> Keyword.take([:name, :description])
+    |> Keyword.put(:updated_at, now)
+  end
+
+  defp now do
+    :erlang.now
+    |> :calendar.now_to_universal_time
+    |> Ecto.DateTime.from_erl
+  end
+
+  defp do_create(<%= subject_underscore %>) do
+    try do
+      {:ok, Repo.create(<%= subject_underscore %>)}
+    rescue
+      error ->
+        {:errors, [inspect(error)]}
+    end
+  end
+
+  defp error_messages(errors) do
+    Enum.map(errors, fn {field, message} -> "#{field} #{message}" end)
+  end
+
+  def find(id) do
+    case Repo.get(__MODULE__, id) do
+      nil ->
+        :not_found
+      <%= subject_underscore %> ->
+        {:ok, <%= subject_underscore %>}
+    end
+  end
+end
+
+defimpl Zorn.Serializer, for: <%= module_name %>.Model.<%= subject_camelcase %>.Entity do
+  def serialize(<%= subject_underscore %>),
+    do: serialize(<%= subject_underscore %>, model_name(<%= subject_underscore %>))
+
+  def serialize(<%= subject_underscore %>, root),
+    do: [{root, serialize_attributes(<%= subject_underscore %>)}]
+
+  defp serialize_attributes(<%= subject_underscore %>) do
+    <%= subject_underscore %>.__entity__(:keywords)
+    |> Dict.take([:id, :email])
+  end
+
+  def model_name(_<%= subject_underscore %>),
+    do: :<%= subject_underscore %>
+
+  def collection_name(_<%= subject_underscore %>),
+    do: :<%= subject_underscore %>
+end

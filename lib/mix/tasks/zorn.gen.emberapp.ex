@@ -2,7 +2,6 @@ defmodule Mix.Tasks.Zorn.Gen.Emberapp do
   use Mix.Task
 
   import Mix.Tasks.Zorn
-  import Mix.Utils, only: [camelize: 1]
 
   @shortdoc "Generate an Ember application in the current project."
 
@@ -42,21 +41,10 @@ defmodule Mix.Tasks.Zorn.Gen.Emberapp do
   end
 
   defp parse_arguments(args) do
-    defaults = [
-      "--bootstrap",
-      "--install",
-      "--target", File.cwd!,
-      "--app", atom_to_binary(Mix.project[:app])
-    ]
+    defaults = ["--bootstrap", "--install"] ++ common_defaults
     {options, _arguments, _errors} = OptionParser.parse(defaults ++ args,
       switches: [bootstrap: :boolean, install: :boolean])
     options
-  end
-
-  defp build_context(options) do
-    [ application: options[:app],
-      module_name: camelize(options[:app]),
-      options: options ]
   end
 
   def npm_is_installed! do

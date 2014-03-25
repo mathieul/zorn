@@ -17,6 +17,7 @@ defmodule Zorn.Mixfile do
     [ {:cowboy, github: "extend/cowboy"},
       {:plug, github: "elixir-lang/plug"},
       {:ecto, github: "elixir-lang/ecto"},
-      {:postgrex, github: "ericmj/postgrex"} ]
+      {:postgrex, github: "ericmj/postgrex"},
+      {:inflex, github: "nurugger07/inflex"} ]
   end
 end

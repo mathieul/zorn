@@ -1,0 +1,38 @@
+defmodule <%= module_name %>.Controller.<%= subjects_camelcase %> do
+  use <%= module_name %>.Controller.API
+
+  alias <%= module_name %>.Model.<%= subject_camelcase %>
+
+  get "/:id" do
+    case <%= subject_camelcase %>.find(id) do
+      {:ok, <%= subject_underscore %>} ->
+        respond_with(conn, serialize(<%= subject_underscore %>))
+
+      :not_found ->
+        respond_with(conn, 404, error_not_found(id))
+    end
+  end
+
+  post "/" do
+    case <%= subject_camelcase %>.create(<%= subject_underscore %>_params(conn)) do
+      {:ok, <%= subject_underscore %>} ->
+        respond_with(conn, 201, serialize(<%= subject_underscore %>))
+
+      {:errors, messages} ->
+        respond_with(conn, 422, messages: messages)
+    end
+  end
+
+  match _, do: respond_with(conn, 404, message: "Not Found")
+
+  defp <%= subject_underscore %>_params(conn) do
+    conn.params
+    |> permits(<%= subject_underscore %>: [:id, :name, :description])
+    |> requires(:<%= subject_underscore %>)
+    |> fetch(:<%= subject_underscore %>)
+  end
+
+  defp error_not_found(id) do
+    [messages: ["<%= subject_underscore %> ##{id} was not found"]]
+  end
+end

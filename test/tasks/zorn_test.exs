@@ -28,6 +28,19 @@ defmodule Mix.Tasks.ZornTest do
     assert files == ["dynamic.txt.eex", "plain.txt"]
   end
 
+  test "#build_context creates a context to use when evaluating templates" do
+    context = build_context(app: "testing_ctx", something: "cool")
+    assert context[:application] == "testing_ctx"
+    assert context[:module_name] == "TestingCtx"
+    assert context[:options] == [something: "cool"]
+  end
+
+  test "#destination_file substitues __variable__ with context variable value" do
+    context = [application: "ze_app", name: "accounts"]
+    file = destination_file("lib/__application__/controller/__name__.ex.eex", "/root", context)
+    assert file == "/root/lib/ze_app/controller/accounts.ex"
+  end
+
   test "generate a plain file" do
     path = template_path("test")
     silent fn ->

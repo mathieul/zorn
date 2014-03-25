@@ -1,0 +1,27 @@
+defmodule <%= module_name %>.Controller.<%= subjects_camelcase %>Test do
+  use <%= module_name %>.TestCase
+  use Zorn.PlugTestHelper, router: <%= module_name %>.Router
+
+  alias <%= module_name %>.Model.<%= subject_camelcase %>
+
+  test "POST / creates a <%= subject_underscore %> with valid attributes" do
+    conn = json_request("POST", "/<%= subjects_underscore %>", [<%= subject_underscore %>: [name: "hello", description: "there"]])
+
+    assert conn.status == 201
+    result = conn.resp_body |> JSON.decode!
+    assert is_list(result["<%= subject_underscore %>"])
+    assert result["<%= subject_underscore %>"]["name"] == "hello"
+
+    {:ok, <%= subject_underscore %>} = <%= subject_camelcase %>.find(result["<%= subject_underscore %>"]["id"])
+    assert <%= subject_underscore %>.name == "hello"
+    assert <%= subject_underscore %>.description == "there"
+  end
+
+  test "POST / returns an error with invalid attributes" do
+    conn = json_request("POST", "/<%= subjects_underscore %>", [<%= subject_underscore %>: [allo: "la terre"]])
+
+    assert conn.status == 422
+    result = conn.resp_body |> JSON.decode!
+    assert result["messages"] == ["name is required", "description is required"]
+  end
+end

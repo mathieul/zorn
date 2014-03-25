@@ -2,6 +2,7 @@ defmodule Mix.Tasks.Zorn do
   @path Path.expand('../../../priv/templates', __DIR__)
 
   import Mix.Generator
+  import Mix.Utils, only: [camelize: 1]
 
   def template_path(task_name),
     do: Path.join(@path, task_name)
@@ -10,6 +11,17 @@ defmodule Mix.Tasks.Zorn do
     Path.wildcard("#{path}/**")
     |> Enum.reject(&File.dir?/1)
     |> Enum.map(fn file -> Path.relative_to(file, path) end)
+  end
+
+  def build_context(options) do
+    [ application: options[:app],
+      module_name: camelize(options[:app]),
+      options: Dict.delete(options, :app) ]
+  end
+
+  def common_defaults do
+    [ "--target", File.cwd!,
+      "--app", atom_to_binary(Mix.project[:app]) ]
   end
 
   def generate({path, template}, target, context) do
@@ -25,13 +37,21 @@ defmodule Mix.Tasks.Zorn do
     |> create_file(content)
   end
 
-  defp destination_file(template, target, context) do
+  def destination_file(template, target, context) do
     dest_file =
       template
-      |> String.replace("__application__", context[:application])
+      |> eval_path_variables(context)
       |> Path.rootname(".eex")
 
     Path.join(target, dest_file)
+  end
+
+  defp eval_path_variables(path, context) do
+    Regex.scan(~r/__([^_]+)__/, path)
+    |> Enum.reduce(path, fn [var_pattern, var_name], path ->
+      value = context[binary_to_atom(var_name)]
+      String.replace(path, var_pattern, value)
+    end)
   end
 
   def command_must_succeed!(command, error_message) do

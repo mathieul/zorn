@@ -2,6 +2,7 @@
   "cowlib": {:git, "git://github.com/extend/cowlib.git", "0d4ece08a7cce90a07cf33d4edad29bc324c7d90", [ref: "0.5.1"]},
   "decimal": {:git, "git://github.com/ericmj/decimal.git", "ab1b6637aac1eabce5dc5a57290b5366878c2e84", []},
   "ecto": {:git, "git://github.com/elixir-lang/ecto.git", "4e52242cddfcfe4c44399d554d20ac2221edc02b", []},
+  "inflex": {:git, "git://github.com/nurugger07/inflex.git", "3cf7f6257e1a87e7309c554f546ff6fd5ebfe2fa", []},
   "mime": {:git, "git://github.com/dynamo/mime.git", "db84370c53a67a7e58a4d0cfb026f4edc64a9367", []},
   "plug": {:git, "git://github.com/elixir-lang/plug.git", "07aab8979229aa23b8f95eaabec331056338f774", []},
   "poolboy": {:git, "git://github.com/devinus/poolboy.git", "64e1eaef0b1e88849c7e7ba9ff75f8cd4dba2a3b", []},
