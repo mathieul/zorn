@@ -41,7 +41,7 @@ defmodule Zorn.Plugs.AuthenticateTokenTest do
 
   test "return the error specified by content type if the token is not found" do
     conn = conn(:get, "/", "", headers: [{"content-type", "application/json"}]) |> MyPlug.call([])
-    assert JSON.decode!(conn.resp_body) == [{"message", "Invalid credentials"}]
+    assert JSON.decode!(conn.resp_body) == Enum.into([{"message", "Invalid credentials"}], HashDict.new)
   end
 
   test "return the default error if the if no content type and token is not found" do

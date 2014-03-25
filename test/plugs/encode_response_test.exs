@@ -12,6 +12,7 @@ defmodule Zorn.Plugs.EncodeResponseTest do
   def encode(object) do
     object
     |> Zorn.Parameters.camelize(:lower)
+    |> Enum.into(HashDict.new)
     |> JSON.encode!
   end
 
