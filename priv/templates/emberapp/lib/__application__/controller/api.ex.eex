@@ -1,5 +1,9 @@
 defmodule <%= module_name %>.Controller.API do
-  defmacro __using__(options) do
+  @doc """
+  Module to use in API controllers, describes how to process API queries.
+  """
+
+  defmacro __using__(_options) do
     quote do
       use Plug.Router
 
@@ -23,6 +27,7 @@ defmodule <%= module_name %>.Controller.API do
   def encode_json_low_camel_case_keys(response) do
       response
       |> Zorn.Parameters.camelize(:lower)
+      |> Enum.into(HashDict.new)
       |> JSON.encode!
   end
 

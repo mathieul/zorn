@@ -1,0 +1,13 @@
+defmodule <%= module_name %>.RouterTest do
+  use ExUnit.Case, async: true
+  use Plug.Test
+
+  @router <%= module_name %>.Router
+
+  test "request a css file" do
+    conn = conn(:get, "/static/css/application.css", [], headers: [{"content-type", "text/css"}])
+    conn = @router.call(conn, [])
+    assert conn.status == 200
+    assert size(conn.resp_body) > 10
+  end
+end

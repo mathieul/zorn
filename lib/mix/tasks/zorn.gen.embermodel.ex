@@ -31,16 +31,14 @@ defmodule Mix.Tasks.Zorn.Gen.Embermodel do
   end
 
   def build_context(options) do
-    subject = options[:subject]
-    subjects = pluralize(subject)
+    subject = underscore(options[:subject])
+    subjects = pluralize(subject) |> underscore
     Mix.Tasks.Zorn.build_context(options)
     |> Dict.merge(
       subjects:            subjects,
       subjects_camelcase:  camelize(subjects),
-      subjects_underscore: underscore(subjects),
       subject:             subject,
-      subject_camelcase:   camelize(subject),
-      subject_underscore:  underscore(subject)
+      subject_camelcase:   camelize(subject)
     )
   end
 
@@ -53,10 +51,13 @@ defmodule Mix.Tasks.Zorn.Gen.Embermodel do
     Dict.put(options, :subject, List.first(arguments))
   end
 
-  defp display_instructions(_context) do
+  defp display_instructions(context) do
     Mix.shell.info ~s"""
 
-    %{black,bright}TODO.%{reset}
+    %{black,bright}Done generating Ember model #{context[:subject]}.%{reset}
+
+    You can test the JSON API example using curl:
+    %{black,bright}curl --header "Content-Type: application/json" -v http://localhost:4000/#{context[:subjects]}%{reset}
     """
   end
 end

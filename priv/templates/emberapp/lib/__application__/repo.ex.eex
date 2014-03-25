@@ -2,7 +2,7 @@ defmodule <%= module_name %>.Repo do
   use Ecto.Repo, adapter: Ecto.Adapters.Postgres
 
   def conf,
-    do: parse_url repo_url(Mix.env)
+    do: repo_url(Mix.env) |> parse_url
 
   defp repo_url(:test),
     do: "ecto://postgres:postgres@localhost/<%= application %>_test?size=1&max_overflow=0"

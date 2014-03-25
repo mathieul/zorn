@@ -5,8 +5,8 @@ defmodule <%= module_name %>.Controller.<%= subjects_camelcase %> do
 
   get "/:id" do
     case <%= subject_camelcase %>.find(id) do
-      {:ok, <%= subject_underscore %>} ->
-        respond_with(conn, serialize(<%= subject_underscore %>))
+      {:ok, <%= subject %>} ->
+        respond_with(conn, serialize(<%= subject %>))
 
       :not_found ->
         respond_with(conn, 404, error_not_found(id))
@@ -14,9 +14,9 @@ defmodule <%= module_name %>.Controller.<%= subjects_camelcase %> do
   end
 
   post "/" do
-    case <%= subject_camelcase %>.create(<%= subject_underscore %>_params(conn)) do
-      {:ok, <%= subject_underscore %>} ->
-        respond_with(conn, 201, serialize(<%= subject_underscore %>))
+    case <%= subject_camelcase %>.create(<%= subject %>_params(conn)) do
+      {:ok, <%= subject %>} ->
+        respond_with(conn, 201, serialize(<%= subject %>))
 
       {:errors, messages} ->
         respond_with(conn, 422, messages: messages)
@@ -25,14 +25,14 @@ defmodule <%= module_name %>.Controller.<%= subjects_camelcase %> do
 
   match _, do: respond_with(conn, 404, message: "Not Found")
 
-  defp <%= subject_underscore %>_params(conn) do
+  defp <%= subject %>_params(conn) do
     conn.params
-    |> permits(<%= subject_underscore %>: [:id, :name, :description])
-    |> requires(:<%= subject_underscore %>)
-    |> fetch(:<%= subject_underscore %>)
+    |> permits(<%= subject %>: [:id, :name, :description])
+    |> requires(:<%= subject %>)
+    |> fetch(:<%= subject %>)
   end
 
   defp error_not_found(id) do
-    [messages: ["<%= subject_underscore %> ##{id} was not found"]]
+    [messages: ["<%= subject %> ##{id} was not found"]]
   end
 end

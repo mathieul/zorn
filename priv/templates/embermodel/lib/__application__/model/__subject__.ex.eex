@@ -5,23 +5,23 @@ defmodule <%= module_name %>.Model.<%= subject_camelcase %> do
 
   alias <%= module_name %>.Repo
 
-  queryable "<%= subject_underscore %>" do
+  queryable "<%= subject %>" do
     field :name
     field :description
   end
 
-  validatep validate_create(<%= subject_underscore %>),
+  validatep validate_create(<%= subject %>),
            name: present(),
     description: present()
 
   def create(attrs) when is_list(attrs) do
-    <%= subject_underscore %> =
-      attributes_for_change(<%= subject_underscore %>, attrs)
+    <%= subject %> =
+      attributes_for_change(attrs)
       |> __MODULE__.new
 
-    case validate(<%= subject_underscore %>) do
+    case validate_create(<%= subject %>) do
       [] ->
-        do_create(<%= subject_underscore %>)
+        do_create(<%= subject %>)
       errors ->
         {:errors, error_messages(errors)}
     end
@@ -39,9 +39,9 @@ defmodule <%= module_name %>.Model.<%= subject_camelcase %> do
     |> Ecto.DateTime.from_erl
   end
 
-  defp do_create(<%= subject_underscore %>) do
+  defp do_create(<%= subject %>) do
     try do
-      {:ok, Repo.create(<%= subject_underscore %>)}
+      {:ok, Repo.create(<%= subject %>)}
     rescue
       error ->
         {:errors, [inspect(error)]}
@@ -56,27 +56,33 @@ defmodule <%= module_name %>.Model.<%= subject_camelcase %> do
     case Repo.get(__MODULE__, id) do
       nil ->
         :not_found
-      <%= subject_underscore %> ->
-        {:ok, <%= subject_underscore %>}
+      <%= subject %> ->
+        {:ok, <%= subject %>}
     end
+  end
+
+  def all do
+    query = from <%= String.slice(subject, 0..0) %> in __MODULE__,
+            order_by: <%= String.slice(subject, 0..0) %>.name
+    Repo.all(query)
   end
 end
 
 defimpl Zorn.Serializer, for: <%= module_name %>.Model.<%= subject_camelcase %>.Entity do
-  def serialize(<%= subject_underscore %>),
-    do: serialize(<%= subject_underscore %>, model_name(<%= subject_underscore %>))
+  def serialize(<%= subject %>),
+    do: serialize(<%= subject %>, model_name(<%= subject %>))
 
-  def serialize(<%= subject_underscore %>, root),
-    do: [{root, serialize_attributes(<%= subject_underscore %>)}]
+  def serialize(<%= subject %>, root),
+    do: [{root, serialize_attributes(<%= subject %>)}]
 
-  defp serialize_attributes(<%= subject_underscore %>) do
-    <%= subject_underscore %>.__entity__(:keywords)
-    |> Dict.take([:id, :email])
+  defp serialize_attributes(<%= subject %>) do
+    <%= subject %>.__entity__(:keywords)
+    |> Dict.take([:id, :name, :description])
   end
 
-  def model_name(_<%= subject_underscore %>),
-    do: :<%= subject_underscore %>
+  def model_name(_<%= subject %>),
+    do: :<%= subject %>
 
-  def collection_name(_<%= subject_underscore %>),
-    do: :<%= subject_underscore %>
+  def collection_name(_<%= subject %>),
+    do: :<%= subject %>
 end

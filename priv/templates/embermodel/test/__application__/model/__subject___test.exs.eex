@@ -1,0 +1,16 @@
+defmodule <%= module_name %>.Model.<%= subject_camelcase %>Test do
+  use <%= module_name %>.TestCase
+
+  import Zorn.Serializer
+  alias <%= module_name %>.Model.<%= subject_camelcase %>
+
+  test "creates a <%= subject %> with #create" do
+    {:ok, <%= subject %>} = <%= subject_camelcase %>.create(name: "one", description: "two three")
+    {:ok, found} = <%= subject_camelcase %>.find(<%= subject %>.id)
+    assert serialize(found) == serialize(<%= subject %>)
+  end
+
+  test "return an error when finding a <%= subject %> id that doesn't exist" do
+    assert <%= subject_camelcase %>.find("no-existent") == :not_found
+  end
+end
