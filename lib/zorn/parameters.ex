@@ -17,7 +17,8 @@ defmodule Zorn.Parameters do
           add_specification_for_key(specs, key, remaining == :track)
 
         _ ->
-          raise ArgumentError, "key specification required to be an atom or a list."
+          raise ArgumentError,
+            message: "key specification required to be an atom or a list."
       end
     end)
   end
@@ -57,7 +58,8 @@ defmodule Zorn.Parameters do
     do: permits(params, [key])
 
   def permits(_, _) do
-    raise ArgumentError, "permits() expects a list dictionnary and a list of key requirements."
+    raise ArgumentError,
+      message: "permits() expects a list dictionnary and a list of key requirements."
   end
 
   @doc """
@@ -75,7 +77,8 @@ defmodule Zorn.Parameters do
     do: requires(params, [key])
 
   def requires(_, _) do
-    raise ArgumentError, "requires() expects a list dictionnary and a list of key requirements."
+    raise ArgumentError,
+      message: "requires() expects a list dictionnary and a list of key requirements."
   end
 
   # Mark specified params as ok.
@@ -119,7 +122,8 @@ defmodule Zorn.Parameters do
   end
 
   defp do_mark_when_ok(value, _) do
-    raise ArgumentError, "permits() expects each #{inspect value} to be a key/value tuple."
+    raise ArgumentError,
+      message: "permits() expects each #{inspect value} to be a key/value tuple."
   end
 
   @doc """
