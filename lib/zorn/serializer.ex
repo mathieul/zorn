@@ -1,26 +1,13 @@
 defmodule Zorn.Serializer do
   defprotocol Serializable do
-    def attributes(container)
+    def attributes(container, kind)
     def singular(container)
     def plural(container)
   end
 
-  def serialize([head, _] = object),
-    do: serialize(object, Serializable.plural(head))
-
-  def serialize(object),
-    do: serialize(object, Serializable.singular(object))
-
-  def serialize([], root),
-    do: [root, []]
-
-  def serialize(object, root) do
-    [{root, Serializable.attributes(object)}]
-  end
-
   defimpl Serializable, for: List do
-    def attributes(list),
-      do: Enum.map(list, &Serializable.attributes/1)
+    def attributes(list, as),
+      do: Enum.map(list, &( Serializable.attributes(&1, as) ))
 
     def singular(_),
       do: :inexistent
@@ -30,7 +17,7 @@ defmodule Zorn.Serializer do
   end
 
   defimpl Serializable, for: Tuple do
-    def attributes(list),
+    def attributes(list, _),
       do: list
 
     def singular(_),
@@ -39,4 +26,27 @@ defmodule Zorn.Serializer do
     def plural(_),
       do: :collection
   end
+
+  def serialize(object),
+    do: serialize(object, [])
+
+  def serialize([], options) when is_list(options),
+    do: [{root(options), []}]
+
+  def serialize(object, options) when is_list(options) do
+    as = Dict.get(options, :as, :default)
+    [{root(object, options), Serializable.attributes(object, as)}]
+  end
+
+  defp root(options),
+    do: Dict.fetch!(options, :root)
+
+  defp root([], options),
+    do: root(options)
+
+  defp root([head, _] = object, options),
+    do: Serializable.plural(head)
+
+  defp root(object, options),
+    do: Serializable.singular(object)
 end
