@@ -15,6 +15,13 @@ defmodule Zorn.Plugs.ConnectionTest do
     ]
   end
 
+  test "parse application/json, text/javascript, */*; q=0.01" do
+    accept = "application/json, text/javascript, */*; q=0.01"
+    assert Connection.parse_accept(accept) == [
+      "application/json", "text/javascript", "*/*"
+    ]
+  end
+
   test "parse missing accept header" do
     assert Connection.parse_accept(nil) == []
   end

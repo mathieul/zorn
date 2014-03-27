@@ -7,10 +7,10 @@ defmodule Zorn.Connection do
 
   def parse_accept(accept) do
     accept
-    |> String.split(",")
+    |> String.split(~r/ *, */)
     |> Enum.with_index
     |> Enum.map(fn {desc, index} ->
-      case String.split(desc, ";") do
+      case String.split(desc, ~r/ *; */) do
         [mime_type, <<"q=" <> qvalue>>] ->
           qvalue = parse_float(qvalue)
           {mime_type, index, qvalue}
