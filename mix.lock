@@ -1,5 +1,5 @@
-%{"cowboy": {:git, "git://github.com/extend/cowboy.git", "a01f992ffbf9eac5f5237161ad4319620d3f8947", []},
-  "cowlib": {:git, "git://github.com/extend/cowlib.git", "0d4ece08a7cce90a07cf33d4edad29bc324c7d90", [ref: "0.5.1"]},
+%{"cowboy": {:git, "git://github.com/extend/cowboy.git", "17af50812c47f5dec7e02e443c551b9697715729", []},
+  "cowlib": {:git, "git://github.com/extend/cowlib.git", "a6626f3b4539b07366034b4953ab2df29e3a9d58", [ref: "0.6.0"]},
   "decimal": {:git, "git://github.com/ericmj/decimal.git", "ab1b6637aac1eabce5dc5a57290b5366878c2e84", []},
   "ecto": {:git, "git://github.com/elixir-lang/ecto.git", "4e52242cddfcfe4c44399d554d20ac2221edc02b", []},
   "inflex": {:git, "git://github.com/nurugger07/inflex.git", "3cf7f6257e1a87e7309c554f546ff6fd5ebfe2fa", []},
