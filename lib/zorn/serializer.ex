@@ -44,7 +44,7 @@ defmodule Zorn.Serializer do
   defp root([], options),
     do: root(options)
 
-  defp root([head, _] = object, options),
+  defp root([head | _] = object, options),
     do: Serializable.plural(head)
 
   defp root(object, options),
