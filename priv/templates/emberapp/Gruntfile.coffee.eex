@@ -121,10 +121,10 @@ module.exports = (grunt) ->
         livereload: true
       emberTemplates:
         files: "<%%= jsdir.src %>/templates/**/*.hbs"
-        tasks: ["emberTemplates", "uglify:templates"]
+        tasks: ["emberTemplates"]
       coffee:
         files: "<%%= jsdir.src %>/**/*.coffee"
-        tasks: ["coffee", "uglify:application"]
+        tasks: ["coffee"]
       sass:
         files: ["<%%= cssdir.src %>/**/*.sass", "<%%= cssdir.src %>/**/*.scss"]
         tasks: ["sass"]
@@ -139,9 +139,11 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-watch"
 
   grunt.registerTask "default", [
-    "bower", "copy",
+    "bower",
+    "copy",
     "sass",
     "coffee",
     "emberTemplates",
-    "concat", "uglify"
+    "concat",
+    "uglify"
   ]
