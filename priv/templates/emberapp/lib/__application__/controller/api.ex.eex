@@ -13,7 +13,7 @@ defmodule <%= module_name %>.Controller.API do
       import Zorn.Parameters
       import unquote(__MODULE__)
 
-      plug Plug.Parsers, parsers: [Zorn.Parsers.Json]
+      plug Plug.Parsers, parsers: [Zorn.Parsers.Json, :urlencoded, :multipart]
       plug Plug.MethodOverride
       plug :match
       plug :dispatch
