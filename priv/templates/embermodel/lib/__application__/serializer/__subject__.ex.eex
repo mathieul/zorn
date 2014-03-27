@@ -1,0 +1,9 @@
+defimpl Zorn.Serializer.Serializable, for: <%= module_name %>.Model.<%= subject_camelcase %>.Entity do
+  def attributes(model, _) do
+    model.__entity__(:keywords)
+    |> Dict.take([:id, :name, :description])
+  end
+
+  def singular(_), do: :<%= subject %>
+  def plural(_),   do: :<%= subjects %>
+end

@@ -67,22 +67,3 @@ defmodule <%= module_name %>.Model.<%= subject_camelcase %> do
     Repo.all(query)
   end
 end
-
-defimpl Zorn.Serializer, for: <%= module_name %>.Model.<%= subject_camelcase %>.Entity do
-  def serialize(<%= subject %>),
-    do: serialize(<%= subject %>, model_name(<%= subject %>))
-
-  def serialize(<%= subject %>, root),
-    do: [{root, serialize_attributes(<%= subject %>)}]
-
-  defp serialize_attributes(<%= subject %>) do
-    <%= subject %>.__entity__(:keywords)
-    |> Dict.take([:id, :name, :description])
-  end
-
-  def model_name(_<%= subject %>),
-    do: :<%= subject %>
-
-  def collection_name(_<%= subject %>),
-    do: :<%= subject %>
-end
